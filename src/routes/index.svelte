@@ -1,5 +1,18 @@
+<script context="module">
+  export const prerender = true;
+  import { prefetchRoutes } from "$app/navigation";
+  export async function load(page) {
+    let slug = page.params.slug;
+    let slugArry = slug.split("-");
+    let index = slugArry[1];
+    return { props: index };
+  }
+</script>
+
 <script>
   import * as QRCode from "qrcode";
+  import { contactList } from "$lib/js/store.js";
+  export let index;
   let qr = "";
   let vcard = `BEGIN:VCARD
 N: Naruto; Uzamaki;;;
@@ -22,7 +35,7 @@ END:VCARD`;
   //   URL;WORK:${website}
   //   EMAIL;INTERNET,HOME:${email}
   //   END:VCARD`;
-  let contactList = [];
+  console.log($contactList);
   let firstname = "";
   let lastname = "";
   let mobile = "";
@@ -55,8 +68,8 @@ END:VCARD`;
       country,
       website,
     };
-    contactList = [...contactList, formDetails];
-    console.log(contactList);
+    $contactList = [...$contactList, formDetails];
+    console.log($contactList);
   }
 
   const generateQR = async (text) => {
@@ -82,15 +95,15 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>Your Name:</span>
+          <span class="w-32">Your Name:</span>
           <input
-            bind:value={firstname}
+            bind:value={$contactList[index].firstname}
             type="text"
             placeholder="First Name"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={lastname}
+            bind:value={$contactList[index].lastname}
             type="text"
             placeholder="Last Name"
             class="input input-bordered input-md"
@@ -101,25 +114,23 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>Contact:</span>
+          <span class="w-32">Contact:</span>
           <input
-            bind:value={mobile}
+            bind:value={$contactList[index].mobile}
             type="text"
             placeholder="Mobile"
             class="input input-bordered input-md"
           />
         </label>
+      </div>
+
+      <div class="form-control pb-4">
         <label class="input-group input-group-md">
+          <span class="w-32">Landline:</span>
           <input
-            bind:value={phone}
+            bind:value={$contactList[index].phone}
             type="text"
             placeholder="Phone"
-            class="input input-bordered input-md"
-          />
-          <input
-            bind:value={fax}
-            type="text"
-            placeholder="Fax"
             class="input input-bordered input-md"
           />
         </label>
@@ -128,9 +139,9 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>Email:</span>
+          <span class="w-32">Email:</span>
           <input
-            bind:value={email}
+            bind:value={$contactList[index].email}
             type="text"
             placeholder="your@email.com"
             class="input input-bordered input-md"
@@ -141,15 +152,15 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>Company:</span>
+          <span class="w-32">Company:</span>
           <input
-            bind:value={company}
+            bind:value={$contactList[index].company}
             type="text"
             placeholder="Company"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={job}
+            bind:value={$contactList[index].job}
             type="text"
             placeholder="Your Job"
             class="input input-bordered input-md"
@@ -160,9 +171,9 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>Street:</span>
+          <span class="w-32">Street:</span>
           <input
-            bind:value={street}
+            bind:value={$contactList[index].street}
             type="text"
             class="input input-bordered input-md"
           />
@@ -172,14 +183,14 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>City:</span>
+          <span class="w-32">City:</span>
           <input
-            bind:value={city}
+            bind:value={$contactList[index].city}
             type="text"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={zip}
+            bind:value={$contactList[index].zip}
             type="text"
             placeholder="ZIP"
             class="input input-bordered input-md"
@@ -190,9 +201,9 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>State:</span>
+          <span class="w-32">State:</span>
           <input
-            bind:value={state}
+            bind:value={$contactList[index].state}
             type="text"
             class="input input-bordered input-md"
           />
@@ -202,9 +213,9 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>Country:</span>
+          <span class="w-32">Country:</span>
           <input
-            bind:value={country}
+            bind:value={$contactList[index].country}
             type="text"
             class="input input-bordered input-md"
           />
@@ -214,9 +225,9 @@ END:VCARD`;
     <div>
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span>Website:</span>
+          <span class="w-32">Website:</span>
           <input
-            bind:value={website}
+            bind:value={$contactList[index].website}
             type="text"
             placeholder="www.your-website.com"
             class="input input-bordered input-md"
@@ -230,12 +241,6 @@ END:VCARD`;
       >
     </div>
   </div>
-
-  {#each contactList as contact}
-    {contact.firstname}
-    {contact.lastname}
-    {contact.mobile}
-  {/each}
 </section>
 
 {@html qr}
