@@ -1,9 +1,15 @@
 <script context="module">
   export const load = async ({ session }) => {
+    console.log("SESSION: ", session);
     if (session.user.exists) return {};
+    // return {
+    //   status: 301,
+    //   redirect: "/login",
+    // };
     return {
-      status: 301,
-      redirect: "/login",
+      props: {
+        session,
+      },
     };
   };
 </script>

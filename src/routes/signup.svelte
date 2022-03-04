@@ -5,7 +5,7 @@
     updateProfile,
     getIdToken,
   } from "firebase/auth";
-  //   import { request } from "$lib/fetch.js";
+  import { request } from "$lib/fetch.js";
 
   let username, email, password;
   const signup = async () => {
@@ -14,7 +14,8 @@
       email,
       password
     );
-    await updateProfile(userProfile.user, { displayName: username });
+
+    await updateProfile(userRecord.user, { displayName: username });
     const idToken = await getIdToken(userRecord.user, true);
     await request("/auth", "POST", { idToken });
     window.location.replace("/");

@@ -1,17 +1,17 @@
 <script>
   import { auth } from "$lib/js/firebase.js";
-  import { createUserWithEmailAndPassword } from "firebase/auth";
+  import { signInWithEmailAndPassword } from "firebase/auth";
   import { request } from "$lib/fetch.js";
 
   let email, password;
   const login = async () => {
-    const userCredintial = await createUserWithEmailAndPassword(
+    const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
-    const idToken = userCredintial._tokenResponse.idToken;
-    await request("auth", "POST", { idToken });
+    const idToken = userCredential._tokenResponse.idToken;
+    await request("/auth", "POST", { idToken });
     window.location.replace("/");
   };
 </script>
