@@ -8,9 +8,9 @@ const config = {
   plugins: [require("daisyui")],
   daisyui: {
     themes: [
+      "forest",
       "haloween", // first one will be the default theme
       "dark",
-      "forest",
       "synthwave",
     ],
   },

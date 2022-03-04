@@ -1,14 +1,3 @@
-<script context="module">
-  export const prerender = true;
-  import { prefetchRoutes } from "$app/navigation";
-  export async function load(page) {
-    let slug = page.params.slug;
-    let slugArry = slug.split("-");
-    let index = slugArry[1];
-    return { props: index };
-  }
-</script>
-
 <script>
   import * as QRCode from "qrcode";
   import { contactList } from "$lib/js/store.js";
@@ -97,13 +86,13 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Your Name:</span>
           <input
-            bind:value={$contactList[index].firstname}
+            bind:value="{firstname}"
             type="text"
             placeholder="First Name"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={$contactList[index].lastname}
+            bind:value="{lastname}"
             type="text"
             placeholder="Last Name"
             class="input input-bordered input-md"
@@ -116,7 +105,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Contact:</span>
           <input
-            bind:value={$contactList[index].mobile}
+            bind:value="{mobile}"
             type="text"
             placeholder="Mobile"
             class="input input-bordered input-md"
@@ -128,7 +117,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Landline:</span>
           <input
-            bind:value={$contactList[index].phone}
+            bind:value="{phone}"
             type="text"
             placeholder="Phone"
             class="input input-bordered input-md"
@@ -141,7 +130,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Email:</span>
           <input
-            bind:value={$contactList[index].email}
+            bind:value="{email}"
             type="text"
             placeholder="your@email.com"
             class="input input-bordered input-md"
@@ -154,13 +143,13 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Company:</span>
           <input
-            bind:value={$contactList[index].company}
+            bind:value="{company}"
             type="text"
             placeholder="Company"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={$contactList[index].job}
+            bind:value="{job}"
             type="text"
             placeholder="Your Job"
             class="input input-bordered input-md"
@@ -173,7 +162,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Street:</span>
           <input
-            bind:value={$contactList[index].street}
+            bind:value="{street}"
             type="text"
             class="input input-bordered input-md"
           />
@@ -185,12 +174,12 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">City:</span>
           <input
-            bind:value={$contactList[index].city}
+            bind:value="{city}"
             type="text"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={$contactList[index].zip}
+            bind:value="{zip}"
             type="text"
             placeholder="ZIP"
             class="input input-bordered input-md"
@@ -203,7 +192,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">State:</span>
           <input
-            bind:value={$contactList[index].state}
+            bind:value="{state}"
             type="text"
             class="input input-bordered input-md"
           />
@@ -215,7 +204,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Country:</span>
           <input
-            bind:value={$contactList[index].country}
+            bind:value="{country}"
             type="text"
             class="input input-bordered input-md"
           />
@@ -227,7 +216,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Website:</span>
           <input
-            bind:value={$contactList[index].website}
+            bind:value="{website}"
             type="text"
             placeholder="www.your-website.com"
             class="input input-bordered input-md"
@@ -236,7 +225,7 @@ END:VCARD`;
       </div>
     </div>
     <div>
-      <button on:click={addContact} class="rounded-lg btn"
+      <button on:click="{addContact}" class="rounded-lg btn"
         >GENERATE QR CODE</button
       >
     </div>
