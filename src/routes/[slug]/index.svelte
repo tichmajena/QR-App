@@ -1,10 +1,12 @@
 <script context="module">
   export const prerender = true;
   import { prefetchRoutes } from "$app/navigation";
+
   export async function load(page, stuff) {
     let slug = page.params.slug;
     console.log(slug), stuff;
     let slugArry = slug.split("-");
+    console.log(slugArry);
     let index = slugArry[1];
     return { props: { index } };
   }
@@ -13,163 +15,64 @@
 <script>
   import { contactList } from "$lib/js/store.js";
   export let index;
+  // left with company &  job
+
+  let vcard = `BEGIN:VCARD
+N: ${$contactList[index].firstname}; ${$contactList[index].lastname};;;
+FN: ${$contactList[index].firstname} ${$contactList[index].lastname}
+TITLE: XX Group front end
+TEL;CELL:${$contactList[index].contact}
+TEL;WORK:${$contactList[index].landline}
+EMAIL;WORK:${$contactList[index].email}
+ADR;WORK:;;${$contactList[index].address};;;;
+URL;WEBSITE:${$contactList[index].website}
+END:VCARD`;
+
   console.log(index);
+  function downloadVCard(content, fileName, contentmeta) {
+    console.log(content);
+    let vcardData = content;
+    const a = document.createElement("a");
+    let file = new Blob([vcardData], { meta: contentmeta });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
+  function handleDownloadVCard() {
+    downloadVCard(vcard, "vtest.vcf", "text/vcard");
+  }
+  console.log($contactList);
 </script>
 
 <section class="w-full">
-  <div
-    class="text-gray-500 py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col"
-  >
-    <div class="pb-4">
-      <h1 class="font-bold text-lg">vCard QR Code</h1>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Your Name:</span>
-          <input
-            bind:value="{$contactList[index].firstname}"
-            type="text"
-            placeholder="First Name"
-            class="input input-bordered input-md"
-          />
-          <input
-            bind:value="{$contactList[index].lastname}"
-            type="text"
-            placeholder="Last Name"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Contact:</span>
-          <input
-            bind:value="{$contactList[index].mobile}"
-            type="text"
-            placeholder="Mobile"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Landline:</span>
-          <input
-            bind:value="{$contactList[index].phone}"
-            type="text"
-            placeholder="Phone"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Email:</span>
-          <input
-            bind:value="{$contactList[index].email}"
-            type="text"
-            placeholder="your@email.com"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Company:</span>
-          <input
-            bind:value="{$contactList[index].company}"
-            type="text"
-            placeholder="Company"
-            class="input input-bordered input-md"
-          />
-          <input
-            bind:value="{$contactList[index].job}"
-            type="text"
-            placeholder="Your Job"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Street:</span>
-          <input
-            bind:value="{$contactList[index].street}"
-            type="text"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">City:</span>
-          <input
-            bind:value="{$contactList[index].city}"
-            type="text"
-            class="input input-bordered input-md"
-          />
-          <input
-            bind:value="{$contactList[index].zip}"
-            type="text"
-            placeholder="ZIP"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">State:</span>
-          <input
-            bind:value="{$contactList[index].state}"
-            type="text"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Country:</span>
-          <input
-            bind:value="{$contactList[index].country}"
-            type="text"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Website:</span>
-          <input
-            bind:value="{$contactList[index].website}"
-            type="text"
-            placeholder="www.your-website.com"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <button on:click="{() => {}}" class="rounded-lg btn"
-        >GENERATE QR CODE</button
+  <div class="w-full max-w-screen-xl mx-auto flex flex-col ">
+    <div class="flex justify-center p-8">
+      <div
+        class="flex card bg-base-100 shadow-xl md:text-3xl md:p-8 p-4 lg:w-1/2 justify-items-center"
       >
+        <div class="flex flex-row space-x-4">
+          <div class="avatar flex items-center">
+            <div class="w-12 md:w-24 rounded-full">
+              <img src="https://api.lorem.space/image/face?hash=27312" />
+            </div>
+          </div>
+          <div>
+            <div class="flex flex-row space-x-4">
+              <div>{$contactList[index].firstname}</div>
+              <div>{$contactList[index].lastname}</div>
+            </div>
+            <div>{$contactList[index].contact}</div>
+            <div>{$contactList[index].landline}</div>
+            <div>{$contactList[index].email}</div>
+            <div>{$contactList[index].website}</div>
+            <div>{$contactList[index].adress}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <button on:click={handleDownloadVCard} class="btn">Save Contact</button>
     </div>
   </div>
 </section>
