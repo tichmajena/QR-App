@@ -1,7 +1,17 @@
+<script context="module">
+  export const load = async ({ session }) => {
+    if (session.user.exists) return {};
+    return {
+      status: 301,
+      redirect: "/login",
+    };
+  };
+</script>
+
 <script>
   import * as QRCode from "qrcode";
   import { contactList } from "$lib/js/store.js";
-
+  import { session } from "$app/stores";
   let qr = "";
   let vcard = `BEGIN:VCARD
 N: Naruto; Uzamaki;;;

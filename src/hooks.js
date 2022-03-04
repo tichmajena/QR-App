@@ -1,5 +1,7 @@
 import cookie from 'cookie';
 import { v4 as uuid } from '@lukeed/uuid';
+import admin from "$lib/js/firebase_admin";
+
 
 export const handle = async ({ event, resolve }) => {
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
@@ -21,3 +23,21 @@ export const handle = async ({ event, resolve }) => {
 
 	return response;
 };
+export const getSession = async (event) =>{
+	const {session} = cookie.parse(event.request.headers.get("cookie") ||"")
+	try{
+		const claims = admin.auth().verifySessionCookie(session)
+		return{
+			user:{
+				exists:true,
+				...claims
+			}
+		}
+	}catch{
+		return{
+			user:{
+				exsists:false
+			}
+		}
+	}
+}

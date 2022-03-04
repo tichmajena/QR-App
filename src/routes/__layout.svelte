@@ -6,6 +6,26 @@
 
 <header />
 
+<nav>
+  <ul class="flex justify-center space-x-8 ">
+    <li class="hover:text-gray-800 text-gray-500">
+      <a href="/">Home</a>
+    </li>
+    <li class="hover:text-gray-800 text-gray-500">
+      <a href="/profile">Profile</a>
+    </li>
+    <li class="hover:text-gray-800 text-gray-500">
+      <a href="/login">Login</a>
+    </li>
+    <li class="hover:text-gray-800 text-gray-500">
+      <a href="/">Logout</a>
+    </li>
+    <li class="hover:text-gray-800 text-gray-500">
+      <a href="/signup">Sign Up</a>
+    </li>
+  </ul>
+</nav>
+
 <main class="flex flex-row p-8">
   <div class="w-1/4">
     <ul>
