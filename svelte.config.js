@@ -6,7 +6,7 @@ import vercel from "@sveltejs/adapter-vercel";
 const config = {
   kit: {
     // adapter: adapter(),
-    adapter: vercel(options),
+    adapter: vercel(),
 
     // Override http methods in the Todo forms
     methodOverride: {
