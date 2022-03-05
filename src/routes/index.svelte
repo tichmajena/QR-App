@@ -99,13 +99,13 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Your Name:</span>
           <input
-            bind:value={firstname}
+            bind:value="{firstname}"
             type="text"
             placeholder="First Name"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={lastname}
+            bind:value="{lastname}"
             type="text"
             placeholder="Last Name"
             class="input input-bordered input-md"
@@ -118,7 +118,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Contact:</span>
           <input
-            bind:value={contact}
+            bind:value="{contact}"
             type="text"
             placeholder="Mobile"
             class="input input-bordered input-md"
@@ -130,7 +130,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Landline:</span>
           <input
-            bind:value={landline}
+            bind:value="{landline}"
             type="text"
             placeholder="Land Line"
             class="input input-bordered input-md"
@@ -143,7 +143,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Email:</span>
           <input
-            bind:value={email}
+            bind:value="{email}"
             type="text"
             placeholder="your@email.com"
             class="input input-bordered input-md"
@@ -156,13 +156,13 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Company:</span>
           <input
-            bind:value={company}
+            bind:value="{company}"
             type="text"
             placeholder="Company"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={job}
+            bind:value="{job}"
             type="text"
             placeholder="Your Job"
             class="input input-bordered input-md"
@@ -175,7 +175,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Adress:</span>
           <input
-            bind:value={adress}
+            bind:value="{adress}"
             type="text"
             class="input input-bordered input-md"
           />
@@ -187,7 +187,7 @@ END:VCARD`;
       <label class="input-group input-group-md">
         <span class="w-32">Website:</span>
         <input
-          bind:value={website}
+          bind:value="{website}"
           type="text"
           placeholder="www.your-website.com"
           class="input input-bordered input-md"
@@ -196,7 +196,7 @@ END:VCARD`;
     </div>
   </div>
   <div>
-    <button on:click={addContact} class="rounded-lg btn"
+    <button on:click="{addContact}" class="rounded-lg btn"
       >GENERATE QR CODE</button
     >
   </div>
