@@ -6,17 +6,31 @@
     console.log(slug), stuff;
     let slugArry = slug.split("-");
     let index = slugArry[1];
-    return { props: { index } };
+    return { props: { index, slug } };
   }
 </script>
 
 <script>
   import { contactList } from "$lib/js/store.js";
+  import * as QRCode from "qrcode";
+  export let slug;
   export let index;
   console.log(index);
+  let qr;
+  console.log(slug);
+
+  const generateQR = async (text) => {
+    try {
+      qr = await QRCode.toString(text);
+      console.log(qr);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  generateQR(`https://akribosqr.vercel.app/${slug}`);
 </script>
 
-<section class="w-full">
+<section class="w-full flex">
   <div
     class="text-gray-500 py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col"
   >
@@ -126,9 +140,10 @@
       </div>
     </div>
     <div>
-      <button on:click={() => {}} class="rounded-lg btn"
-        >GENERATE QR CODE</button
-      >
+      <button on:click={() => {}} class="rounded-lg btn">Save Contacts</button>
     </div>
+  </div>
+  <div class="w-56 h-56">
+    {@html qr}
   </div>
 </section>

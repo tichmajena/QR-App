@@ -197,9 +197,9 @@ END:VCARD`;
   </div>
   <div>
     <button on:click="{addContact}" class="rounded-lg btn"
-      >GENERATE QR CODE</button
+      >Add Contact</button
     >
   </div>
 </section>
 
-{@html qr}
+
