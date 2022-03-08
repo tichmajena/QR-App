@@ -21,6 +21,24 @@
     });
     return { props: { index, proj } };
   }
+
+  function getContact() {
+    var reader = new FileReader();
+    var out = new Blob([response.data], { type: "application/pdf" });
+    reader.onload = function (e) {
+      window.location.href = reader.result;
+    };
+    reader.readAsDataURL(out);
+
+    // var blob = new Blob([response.data], { type: "application/pdf" });
+    var fileURL = URL.createObjectURL(out);
+    var a = document.createElement("a");
+    a.href = fileURL;
+    a.target = "_blank";
+    a.download = "lkn_" + id + ".pdf";
+    document.body.appendChild(a);
+    a.click();
+  }
 </script>
 
 <script>

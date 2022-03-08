@@ -65,8 +65,27 @@
     return URL.createObjectURL(file);
   }
 
+  function getContact(vcardData, id) {
+    let reader = new FileReader();
+    let out = new Blob([vcardData], { type: "text/vcard" });
+    reader.onload = function (e) {
+      window.location.href = reader.result;
+    };
+    reader.readAsDataURL(out);
+
+    // var blob = new Blob([response.data], { type: "application/pdf" });
+    let fileURL = URL.createObjectURL(out);
+    let a = document.createElement("a");
+    a.href = fileURL;
+    a.target = "_blank";
+    a.download = "lkn_" + id + ".pdf";
+    document.body.appendChild(a);
+    a.click();
+  }
+
   function handleDownloadVCard() {
-    downloadVCard(vcard, "vtest.vcf", "text/vcard");
+    //downloadVCard(vcard, "vtest.vcf", "text/vcard");
+    getContact(vcard, "vtest.vcf");
   }
   console.log($contactList);
 </script>
