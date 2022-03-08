@@ -9,3 +9,5 @@ contactList.subscribe((value) => {
 });
 
 export const current = writable({});
+
+export const contact_id = writable({});

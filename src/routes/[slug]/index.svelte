@@ -3,6 +3,7 @@
   import { prefetchRoutes } from "$app/navigation";
   import { doc, onSnapshot } from "firebase/firestore";
   import { db } from "$lib/js/firebase";
+  import { contactList, current } from "$lib/js/store.js";
 
   export async function load(page, stuff) {
     let slug = page.params.slug;
@@ -21,8 +22,6 @@
 </script>
 
 <script>
-  import { contactList, current } from "$lib/js/store.js";
-
   export let index = 0;
   export let proj;
   console.log(proj);

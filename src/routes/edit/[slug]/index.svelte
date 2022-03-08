@@ -4,6 +4,7 @@
   import { prefetchRoutes } from "$app/navigation";
   import { doc, onSnapshot } from "firebase/firestore";
   import { db } from "$lib/js/firebase";
+  import { contactList, current, contact_id } from "$lib/js/store.js";
 
   export async function load(page, stuff) {
     let slug = page.params.slug;
@@ -16,13 +17,13 @@
       console.log("Current data: ", doc.data());
       proj = doc.data();
       current.set(proj);
+      contact_id.set(slug);
     });
     return { props: { index, proj } };
   }
 </script>
 
 <script>
-  import { contactList, current } from "$lib/js/store.js";
   import * as QRCode from "qrcode";
   export let slug;
   export let index;
@@ -38,7 +39,13 @@
       console.error(err);
     }
   };
-  generateQR(`https://akribosqr.vercel.app/${slug}`);
+  $: browser &&
+    generateQR(`https://akribosqr.vercel.app/${$contact_id}`, {
+      color: {
+        dark: "#010599FF",
+        light: "#305c97",
+      },
+    });
 </script>
 
 {#if browser}

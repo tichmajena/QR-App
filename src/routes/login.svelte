@@ -4,7 +4,8 @@
   import { request } from "$lib/fetch.js";
   import { browser } from "$app/env";
 
-  let email, password;
+  let email = "berlinmhiripiri@gmail.com",
+    password = "taspakwer";
   const login = async () => {
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -12,7 +13,8 @@
       password
     );
     const idToken = userCredential._tokenResponse.idToken;
-    await request("/auth", "POST", { idToken });
+    let res = await request("/auth", "POST", { idToken });
+    console.log(res.json());
     window.location.replace("/");
   };
 
