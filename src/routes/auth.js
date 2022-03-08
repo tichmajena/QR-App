@@ -1,4 +1,7 @@
 import admin from "$lib/js/firebase_admin.js";
+import { dev } from "$app/env";
+
+const secure = dev ? "" : "Secure";
 const expiresIn = 1000 * 60 * 60 * 24 * 7;
 
 export const post = async (event) => {
@@ -16,4 +19,11 @@ export const post = async (event) => {
   } catch {
     status: 500;
   }
+};
+
+export const del = async (_) => {
+  return {
+    status: 200,
+    headers: { "set-cookie": `session=_;Path=/;HttpOnly;Max-Age=0;${secure}` },
+  };
 };

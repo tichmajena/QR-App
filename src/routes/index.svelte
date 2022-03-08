@@ -41,6 +41,13 @@
   let job = "";
   let adress = $defaults.address;
   let website = $defaults.website;
+  // import { request } from "$lib/js/fetch.js";
+
+  // const signOutUser = async () => {
+  //   await request("/auth", "DELETE");
+  //   window.location.replace("/login");
+  //   console.log("Out");
+  // };
 
   const colRef = collection(db, "contacts");
   let contacts = [];
@@ -158,33 +165,44 @@ END:VCARD`;
   generateQR(vcard);
 </script>
 
-<section class="w-full">
+<section class="w-full bg-akriblue-500">
   <div
     class="text-gray-500 py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col"
   >
     <div class="text-4xl text-white mb-5">{firstname} {lastname}</div>
     <div class="pb-4">
-      <h1 class="text-lg">Contact Details</h1>
+      <h1 class="w-full font-bold text-lg">Contact Details</h1>
     </div>
     <div>
-      <div>
-        <div class="form-control pb-4">
-          <label class="input-group input-group-md">
-            <span class="w-32">Your Name:</span>
-            <input
-              bind:value="{firstname}"
-              type="text"
-              placeholder="First Name"
-              class="input input-bordered input-md"
-            />
-            <input
-              bind:value="{lastname}"
-              type="text"
-              placeholder="Last Name"
-              class="input input-bordered input-md"
-            />
-          </label>
-        </div>
+      <div class="form-control pb-4 ">
+        <label class="input-group input-group-md">
+          <span class="w-32">Your Name:</span>
+          <input
+            bind:value={firstname}
+            type="text"
+            placeholder="First Name"
+            class="input input-bordered input-md"
+          />
+          <input
+            bind:value={lastname}
+            type="text"
+            placeholder="Last Name"
+            class="input input-bordered input-md"
+          />
+        </label>
+      </div>
+    </div>
+    <div>
+      <div class="form-control pb-4">
+        <label class="input-group input-group-md">
+          <span class="w-32">Contact:</span>
+          <input
+            bind:value={contact}
+            type="text"
+            placeholder="Mobile"
+            class="input input-bordered input-md"
+          />
+        </label>
       </div>
       <div>
         <div class="form-control pb-4">
@@ -272,5 +290,22 @@ END:VCARD`;
         >
       </div>
     </div>
+
+    <div class="form-control pb-4">
+      <label class="input-group input-group-md">
+        <span class="w-32">Website:</span>
+        <input
+          bind:value={website}
+          type="text"
+          placeholder="www.your-website.com"
+          class="input input-bordered input-md"
+        />
+      </label>
+    </div>
+  </div>
+  <div>
+    <button on:click={addCntct} class="rounded-lg btn">Add Contact</button>
+
+    <!-- <button on:click={signOutUser} class=" btn">Signout</button> -->
   </div>
 </section>

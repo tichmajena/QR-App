@@ -101,7 +101,7 @@ END:VCARD`;
   console.log($contactList);
 </script>
 
-<section class="w-full">
+<section class="w-full bg-akriblue-500">
   <div
     class="w-full max-w-screen-xl h-screen mx-auto flex flex-col bg-akriblue-500 justify-center items-center "
   >
@@ -111,35 +111,38 @@ END:VCARD`;
       >
         {#if $current}
           <div class="flex flex-row space-x-4">
-            <div class="avatar flex items-center">
-              <div class="w-12 md:w-24 rounded-full shadow-md">
+            <div class="avatar w-full flex items-center">
+              <div class="w-12 md:w-24 lg:w-full rounded-full shadow-md">
                 <img src="acp-circle-favicon-256.png" />
               </div>
             </div>
             <div>
-              <div class="flex flex-row space-x-4">
+              <div
+                class="md:flex md:flex-row space-x-4 text-akriblue-600 font-bold text-3xl"
+              >
                 <div>{$current.firstname}</div>
                 <div>{$current.lastname}</div>
               </div>
-              <div>{$current.contact}</div>
-              <div>{$current.landline}</div>
-              <div>{$current.email}</div>
-              <div>{$current.website}</div>
-              <div>{$current.adress}</div>
+              <div class=" text-gray-600 text-lg">{$current.adress}</div>
+
+              <div class="text-sm text-gray-600">{$current.contact}</div>
+              <div class="text-sm text-gray-600">{$current.landline}</div>
+              <div class="text-sm text-gray-600">{$current.email}</div>
+              <div class="text-sm text-gray-600">{$current.website}</div>
             </div>
           </div>
-          <button on:click="{handleDownloadVCard}" class="btn"
+          <button on:click={handleDownloadVCard} class="btn"
             >Save Contact 1.1</button
           >
           <a
-            href="{getVCard(vcard, 'vtest.vcf', 'text/vcard')}"
+            href={getVCard(vcard, "vtest.vcf", "text/vcard")}
             download="vtest.vcf"
             class="btn">Drop Contact</a
           >
           <a
-            on:click="{() => {
-              window.open(getVCard(vcard, 'vtest.vcf', 'text/vcard') + '.vcf');
-            }}"
+            on:click={() => {
+              window.open(getVCard(vcard, "vtest.vcf", "text/vcard") + ".vcf");
+            }}
             download="vtest.vcf"
             class="btn">Open Contact</a
           >
