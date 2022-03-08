@@ -7,3 +7,5 @@ export const contactList = writable(
 contactList.subscribe((value) => {
   browser && localStorage.setItem("contact", JSON.stringify(value));
 });
+
+export const current = writable({});

@@ -4,7 +4,7 @@
   import "../app.css";
 </script>
 
-<header />
+<header></header>
 
 <nav>
   <ul class="flex justify-center space-x-8 ">
@@ -45,22 +45,15 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
+                ></path>
               </svg>
             </div>
             <div>
               <li class="rounded p-4 shadow-lg">
                 {contact.firstname}
                 {contact.lastname}
-                <a
-                  class="btn"
-                  href="/{contact.firstname}_{contact.lastname}-{index}">Open</a
-                >
-                <a
-                  class="btn"
-                  href="/edit/{contact.firstname}_{contact.lastname}-{index}"
-                  >Edit</a
-                >
+                <a class="btn" href="/{contact.id}">Open</a>
+                <a class="btn" href="/edit/{contact.id}">Edit</a>
               </li>
             </div>
           </div>
@@ -102,4 +95,4 @@
   </div>
 </main>
 
-<footer />
+<footer></footer>

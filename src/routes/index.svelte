@@ -18,33 +18,48 @@
   import * as QRCode from "qrcode";
   import { contactList } from "$lib/js/store.js";
   import { session } from "$app/stores";
-  import { initializeApp, getApps, getApp } from "firebase/app";
-  import { getFirestore, collection, onSnapshot } from "firebase/firestore";
-  import { firebaseConfig } from "$lib/firebaseConfig";
+  import {
+    getFirestore,
+    collection,
+    doc,
+    onSnapshot,
+    getDocs,
+    addDoc,
+    query,
+  } from "firebase/firestore";
+  import { db } from "$lib/js/firebase";
+  // import admin from "$lib/js/firebase_admin.js";
   import { browser } from "$app/env";
 
-  const firebase =
-    browser &&
-    (getApps().length === 0 ? initializeApp(firebaseConfig) : getApp());
-
-  const db = browser && getFirestore();
-  console.log({ firebaseApp, db });
-
-  const colRef = browser && collection(db, "contacts");
+  const colRef = collection(db, "contacts");
   let contacts = [];
-  const unsubscribe =
-    browser &&
-    onSnapshot(colRef, (querySnapshot) => {
-      let fbContacts = [];
-      querySnapshot.foreach((doc) => {
-        let contact = { ...doc.data(), id: doc.id };
-        fbTodos = [todo, ...fbTodos];
-      });
-      contacts = fbContacts;
+
+  const q = query(collection(db, "contacts"));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    let _contacts = [];
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data(), doc);
+      let contact = { ...doc.data(), id: doc.id };
+      _contacts = [contact, ..._contacts];
     });
+    $contactList = _contacts;
+    console.table(contacts);
+  });
+  async function tora() {
+    const querySnapshot = await getDocs(collection(db, "contacts"));
+    await querySnapshot.forEach((doc) => {
+      //  console.log(`${doc.id} => ${doc.data()}`);
+      //console.log(doc.data());
+    });
+  }
+
+  tora();
+  // const unsub = onSnapshot(doc(db, "contacts"), (doc) => {
+  //   console.log("Current data: ", doc.data());
+  // });
 
   const addCntct = async () => {
-    if (task !== "") {
+    if (firstname !== "" && lastname !== "" && contact !== "") {
       const docRef = await addDoc(collection(db, "contacts"), {
         firstname,
         lastname,
@@ -57,11 +72,11 @@
         website,
       });
 
-      error = "";
+      let error = "";
     } else {
       error = "Task is empty";
     }
-    task = "";
+    //task = "";
   };
 
   const deleteContact = async (id) => {
@@ -132,9 +147,7 @@ END:VCARD`;
 
   const generateQR = async (text) => {
     try {
-      console.log(QRCode);
       qr = await QRCode.toString(text);
-      console.log(qr);
     } catch (err) {
       console.error(err);
     }
@@ -155,13 +168,13 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Your Name:</span>
           <input
-            bind:value={firstname}
+            bind:value="{firstname}"
             type="text"
             placeholder="First Name"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={lastname}
+            bind:value="{lastname}"
             type="text"
             placeholder="Last Name"
             class="input input-bordered input-md"
@@ -174,7 +187,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Contact:</span>
           <input
-            bind:value={contact}
+            bind:value="{contact}"
             type="text"
             placeholder="Mobile"
             class="input input-bordered input-md"
@@ -186,7 +199,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Landline:</span>
           <input
-            bind:value={landline}
+            bind:value="{landline}"
             type="text"
             placeholder="Land Line"
             class="input input-bordered input-md"
@@ -199,7 +212,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Email:</span>
           <input
-            bind:value={email}
+            bind:value="{email}"
             type="text"
             placeholder="your@email.com"
             class="input input-bordered input-md"
@@ -212,13 +225,13 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Company:</span>
           <input
-            bind:value={company}
+            bind:value="{company}"
             type="text"
             placeholder="Company"
             class="input input-bordered input-md"
           />
           <input
-            bind:value={job}
+            bind:value="{job}"
             type="text"
             placeholder="Your Job"
             class="input input-bordered input-md"
@@ -231,7 +244,7 @@ END:VCARD`;
         <label class="input-group input-group-md">
           <span class="w-32">Adress:</span>
           <input
-            bind:value={adress}
+            bind:value="{adress}"
             type="text"
             class="input input-bordered input-md"
           />
@@ -243,7 +256,7 @@ END:VCARD`;
       <label class="input-group input-group-md">
         <span class="w-32">Website:</span>
         <input
-          bind:value={website}
+          bind:value="{website}"
           type="text"
           placeholder="www.your-website.com"
           class="input input-bordered input-md"
@@ -252,6 +265,6 @@ END:VCARD`;
     </div>
   </div>
   <div>
-    <button on:click={addContact} class="rounded-lg btn">Add Contact</button>
+    <button on:click="{addCntct}" class="rounded-lg btn">Add Contact</button>
   </div>
 </section>
