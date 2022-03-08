@@ -4,7 +4,7 @@
   import "../app.css";
 </script>
 
-<header></header>
+<header />
 
 <nav>
   <ul class="flex justify-center space-x-8 ">
@@ -26,16 +26,18 @@
   </ul>
 </nav>
 
-<main class="flex flex-row p-8">
-  <div class="w-1/4">
+<main class="flex flex-row p-8 bg-akriblue-500">
+  <div class="w-1/2 ">
     <ul>
       {#each $contactList as contact, index}
-        <div class="flex flex-row">
-          <div class="flex flex-row">
-            <div class="flex items-center">
+        <div class="flex flex-row ">
+          <div
+            class="xl:w-1/2 w-full flex flex-row bg-akriblue-600 rounded-lg mb-4 md:text-2xl"
+          >
+            <div class="flex items-center md:pl-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
+                class="md:h-8 md:w-8 w-6 h-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -45,15 +47,37 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                ></path>
+                />
               </svg>
             </div>
             <div>
-              <li class="rounded p-4 shadow-lg">
-                {contact.firstname}
-                {contact.lastname}
-                <a class="btn" href="/{contact.id}">Open</a>
-                <a class="btn" href="/edit/{contact.id}">Edit</a>
+              <li class=" p-4 ">
+                <div class="md:flex md:flex-row">
+                  {contact.firstname}
+                  {contact.lastname}
+                </div>
+                <div>
+                  {contact.contact}
+                </div>
+                <div
+                  class="w-full flex flex-col md:flex-row md:justify-between"
+                >
+                  <div class="w-1/2" />
+                  <div class="w-1/2 md:flex md:flex-row space-y-2 ">
+                    <div class="md:p-2">
+                      <a
+                        class="py-1 px-1  rounded-md bg-akriblue-700"
+                        href="/{contact.id}">Open</a
+                      >
+                    </div>
+                    <div>
+                      <a
+                        class="py-1 px-2 rounded-md bg-akriblue-700"
+                        href="/edit/{contact.id}">Edit</a
+                      >
+                    </div>
+                  </div>
+                </div>
               </li>
             </div>
           </div>
@@ -90,9 +114,10 @@
       {/each}
     </ul>
   </div>
-  <div class="3/4">
+  <div class="w-1/2">
+    <!-- 3/4 -->
     <slot />
   </div>
 </main>
 
-<footer></footer>
+<footer />
