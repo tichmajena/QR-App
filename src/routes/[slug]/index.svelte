@@ -42,9 +42,20 @@
   // TEL;CELL:${$current.contact}
   // TEL;WORK:${$current.landline}
   // EMAIL;WORK:${$current.email}
-  // ADR;WORK:;;${$current.address};;;;
-  // URL;WEBSITE:${$current.website}
+  // ADR;WORK:;;62 Quorn Avenue;;;;
+  // URL;WEBSITE:www.akriboscapital.com
   // END:VCARD`;
+
+  let vcard2 = `BEGIN:VCARD
+N: Naruto; Uzamaki;;;
+FN: First name and last name
+TITLE: XX Group front end
+ADR;WORK:;;No.19 GT Road, Fifth Ring District, Beijing;;;;
+TEL;CELL,VOICE:159351111111
+TEL;WORK,VOICE:010-6666666
+URL;WORK:www.gt.com
+EMAIL;INTERNET,HOME:253413617@qq.com
+END:VCARD`;
 
   console.log(index);
   function downloadVCard(content, fileName, contentmeta) {

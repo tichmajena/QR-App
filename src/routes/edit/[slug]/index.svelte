@@ -47,23 +47,51 @@
   export let index;
   console.log(index);
   let qr;
+  let qrc;
   console.log(slug);
 
+  let vcard =
+    browser &&
+    `BEGIN:VCARD
+N: ${$current.firstname}; ${$current.lastname};;;
+FN: ${$current.firstname} ${$current.lastname}
+TITLE: XX Group front end
+TEL;CELL:${$current.contact}
+TEL;WORK:${$current.landline}
+EMAIL;WORK:${$current.email}
+URL;WEBSITE:${$current.website}
+END:VCARD`;
+
+  let vcard2 = `BEGIN:VCARD
+N: Naruto; Uzamaki;;;
+FN: First name and last name
+TITLE: XX Group front end
+ADR;WORK:;;No.19 GT Road, Fifth Ring District, Beijing;;;;
+TEL;CELL,VOICE:159351111111
+TEL;WORK,VOICE:010-6666666
+URL;WORK:www.gt.com
+EMAIL;INTERNET,HOME:253413617@qq.com
+END:VCARD`;
+
   const generateQR = async (text) => {
+    console.log(text);
+
     try {
       qr = await QRCode.toString(text);
-      console.log(qr);
     } catch (err) {
       console.error(err);
     }
   };
-  $: browser &&
-    generateQR(`https://akribosqr.vercel.app/${$contact_id}`, {
-      color: {
-        dark: "#010599FF",
-        light: "#305c97",
-      },
-    });
+
+  const generateQRC = async (text) => {
+    console.log(text);
+    try {
+      qrc = await QRCode.toString(text);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  $: browser && generateQR(`https://akribosqr.vercel.app/${$contact_id}`);
 </script>
 
 {#if browser}
@@ -182,8 +210,17 @@
         >
       </div>
     </div>
-    <div class="w-56 h-56">
-      {@html qr}
+    <div>
+      <div class="w-56 h-56 m-20">
+        {@html qr}
+      </div>
+      <div class="w-56 h-56 mbt-20">
+        {@html qrc}
+      </div>
+      <button on:click="{() => generateQRC(vcard)}" class="btn btn-success"
+        >GENERATE QR</button
+      >
     </div>
   </section>
+  {vcard}
 {/if}
