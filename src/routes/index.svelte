@@ -30,6 +30,17 @@
   import { db } from "$lib/js/firebase";
   // import admin from "$lib/js/firebase_admin.js";
   import { browser } from "$app/env";
+  import { defaults } from "$lib/js/store";
+
+  let firstname = "";
+  let lastname = "";
+  let contact = "";
+  let landline = $defaults.landline;
+  let email = "";
+  let company = $defaults.company;
+  let job = "";
+  let adress = $defaults.address;
+  let website = $defaults.website;
 
   const colRef = collection(db, "contacts");
   let contacts = [];
@@ -112,15 +123,6 @@ END:VCARD`;
   //   EMAIL;INTERNET,HOME:${email}
   //   END:VCARD`;
   console.log($contactList);
-  let firstname = "";
-  let lastname = "";
-  let contact = "";
-  let landline = "";
-  let email = "";
-  let company = "";
-  let job = "";
-  let adress = "";
-  let website = "";
 
   function addContact() {
     let formDetails = {
@@ -160,111 +162,115 @@ END:VCARD`;
   <div
     class="text-gray-500 py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col"
   >
+    <div class="text-4xl text-white mb-5">{firstname} {lastname}</div>
     <div class="pb-4">
-      <h1 class="font-bold text-lg">vCard QR Code</h1>
+      <h1 class="text-lg">Contact Details</h1>
     </div>
     <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Your Name:</span>
-          <input
-            bind:value="{firstname}"
-            type="text"
-            placeholder="First Name"
-            class="input input-bordered input-md"
-          />
-          <input
-            bind:value="{lastname}"
-            type="text"
-            placeholder="Last Name"
-            class="input input-bordered input-md"
-          />
-        </label>
+      <div>
+        <div class="form-control pb-4">
+          <label class="input-group input-group-md">
+            <span class="w-32">Your Name:</span>
+            <input
+              bind:value="{firstname}"
+              type="text"
+              placeholder="First Name"
+              class="input input-bordered input-md"
+            />
+            <input
+              bind:value="{lastname}"
+              type="text"
+              placeholder="Last Name"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
       </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Contact:</span>
-          <input
-            bind:value="{contact}"
-            type="text"
-            placeholder="Mobile"
-            class="input input-bordered input-md"
-          />
-        </label>
+      <div>
+        <div class="form-control pb-4">
+          <label class="input-group input-group-md">
+            <span class="w-32">Contact:</span>
+            <input
+              bind:value="{contact}"
+              type="text"
+              placeholder="Mobile"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+
+        <div class="form-control pb-4">
+          <label class="input-group input-group-md">
+            <span class="w-32">Landline:</span>
+            <input
+              bind:value="{landline}"
+              type="text"
+              placeholder="Land Line"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+      </div>
+      <div>
+        <div class="form-control pb-4">
+          <label class="input-group input-group-md">
+            <span class="w-32">Email:</span>
+            <input
+              bind:value="{email}"
+              type="text"
+              placeholder="your@email.com"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+      </div>
+      <div>
+        <div class="form-control pb-4">
+          <label class="input-group input-group-md">
+            <span class="w-32">Company:</span>
+            <input
+              bind:value="{company}"
+              type="text"
+              placeholder="Company"
+              class="input input-bordered input-md"
+            />
+            <input
+              bind:value="{job}"
+              type="text"
+              placeholder="Your Job"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
+      </div>
+      <div>
+        <div class="form-control pb-4">
+          <label class="input-group input-group-md">
+            <span class="w-32">Adress:</span>
+            <input
+              bind:value="{adress}"
+              type="text"
+              class="input input-bordered input-md"
+            />
+          </label>
+        </div>
       </div>
 
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span class="w-32">Landline:</span>
+          <span class="w-32">Website:</span>
           <input
-            bind:value="{landline}"
+            bind:value="{website}"
             type="text"
-            placeholder="Land Line"
+            placeholder="www.your-website.com"
             class="input input-bordered input-md"
           />
         </label>
       </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Email:</span>
-          <input
-            bind:value="{email}"
-            type="text"
-            placeholder="your@email.com"
-            class="input input-bordered input-md"
-          />
-        </label>
+      <div>
+        <button on:click="{addCntct}" class="rounded-lg btn">Add Contact</button
+        >
       </div>
     </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Company:</span>
-          <input
-            bind:value="{company}"
-            type="text"
-            placeholder="Company"
-            class="input input-bordered input-md"
-          />
-          <input
-            bind:value="{job}"
-            type="text"
-            placeholder="Your Job"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-    <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Adress:</span>
-          <input
-            bind:value="{adress}"
-            type="text"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
-    </div>
-
-    <div class="form-control pb-4">
-      <label class="input-group input-group-md">
-        <span class="w-32">Website:</span>
-        <input
-          bind:value="{website}"
-          type="text"
-          placeholder="www.your-website.com"
-          class="input input-bordered input-md"
-        />
-      </label>
-    </div>
-  </div>
-  <div>
-    <button on:click="{addCntct}" class="rounded-lg btn">Add Contact</button>
   </div>
 </section>
