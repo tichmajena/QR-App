@@ -7,13 +7,11 @@
 
   export async function load(page, stuff) {
     let slug = page.params.slug;
-    console.log(slug), stuff;
+
     let slugArry = slug.split("-");
-    console.log(slugArry);
     let index = slugArry[1];
     let proj;
     const unsub = onSnapshot(doc(db, "contacts", slug), (doc) => {
-      console.log("Current data: ", doc.data());
       proj = doc.data();
       current.set(proj);
     });
@@ -24,13 +22,11 @@
 <script>
   export let index = 0;
   export let proj;
-  console.log(proj);
 
   let projojo;
 
   $: $current = proj;
-  $: console.log($current);
-  console.log(index);
+
   // left with company &  job
   //let vcard;
   let vcard =
@@ -57,9 +53,7 @@ URL;WORK:www.gt.com
 EMAIL;INTERNET,HOME:253413617@qq.com
 END:VCARD`;
 
-  console.log(index);
   function downloadVCard(content, fileName, contentmeta) {
-    console.log(content);
     let vcardData = content;
     const a = document.createElement("a");
     let file = new Blob([vcardData], { meta: contentmeta });
@@ -69,7 +63,6 @@ END:VCARD`;
   }
 
   function getVCard(content, fileName, contentmeta) {
-    console.log(content);
     let vcardData = content;
     const a = document.createElement("a");
     let file = new Blob([vcardData], { meta: contentmeta });
@@ -98,7 +91,6 @@ END:VCARD`;
     //downloadVCard(vcard, "vtest.vcf", "text/vcard");
     getContact(vcard, "vtest.vcf");
   }
-  console.log($contactList);
 </script>
 
 <section class="w-full bg-akriblue-500">

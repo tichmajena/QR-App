@@ -1,6 +1,7 @@
 <script>
   import Header from "$lib/header/Header.svelte";
   import { contactList } from "$lib/js/store.js";
+  import { page } from "$app/stores";
   import "../app.css";
 </script>
 
@@ -33,11 +34,15 @@
       {#each $contactList as contact, index}
         <div class="flex flex-row ">
           <div
-            class="w-full overflow-clip flex flex-col bg-akriblue-400 shadow-2xl rounded-lg mr-8 my-3 md:text-2xl bg-opacity-30"
+            class="w-full overflow-clip flex flex-col bg-akriblue-400 shadow-2xl rounded-lg mr-8 my-3 md:text-2xl bg-opacity-30 bg-op"
+            class:bg-white="{$page.url.pathname.indexOf(contact.id) > -1}"
+            class:bg-opacity-100="{$page.url.pathname.indexOf(contact.id) > -1}"
           >
             <div class="flex flex-row px-3 pt-3">
               <div
                 class="flex w-16 h-16 mt-2 justify-center items-center bg-akriblue-500 rounded-full"
+                class:bg-gray-400="{$page.url.pathname.indexOf(contact.id) >
+                  -1}"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -55,11 +60,17 @@
                 </svg>
               </div>
               <div class="w-9/12">
-                <li class=" p-4 ">
+                <li
+                  class=" p-4 "
+                  class:text-akriblue-500="{$page.url.pathname.indexOf(
+                    contact.id
+                  ) > -1}"
+                >
                   <div class="md:flex md:flex-row text-xl">
                     {contact.firstname}
                     {contact.lastname}
                   </div>
+
                   <div class="text-sm">
                     {contact.contact}
                   </div>

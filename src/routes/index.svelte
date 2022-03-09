@@ -1,6 +1,5 @@
 <script context="module">
   export const load = async ({ session }) => {
-    console.log("SESSION: ", session);
     if (session.user.exists) return {};
     // return {
     //   status: 301,
@@ -31,6 +30,7 @@
   // import admin from "$lib/js/firebase_admin.js";
   import { browser } from "$app/env";
   import { defaults } from "$lib/js/store";
+  import Animate from "$lib/components/Animate.svelte";
 
   let firstname = "";
   let lastname = "";
@@ -56,7 +56,6 @@
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     let _contacts = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc.data(), doc);
       let contact = { ...doc.data(), id: doc.id };
       _contacts = [contact, ..._contacts];
     });
@@ -111,7 +110,6 @@ END:VCARD`;
   //   URL;WORK:${website}
   //   EMAIL;INTERNET,HOME:${email}
   //   END:VCARD`;
-  console.log($contactList);
 
   function addContact() {
     let formDetails = {
@@ -126,7 +124,7 @@ END:VCARD`;
       website,
     };
     $contactList = [...$contactList, formDetails];
-    console.log($contactList);
+
     firstname = "";
     lastname = "";
     contact = "";
@@ -147,125 +145,133 @@ END:VCARD`;
   generateQR(vcard);
 </script>
 
-<section class="w-full bg-akriblue-500">
-  <div class="py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col">
-    <div class="text-4xl text-white mb-5">{firstname} {lastname}</div>
-    <div class="pb-4">
-      <h1 class="w-full font-medium uppercase text-lg text-akriblue-200">
-        New Contact
-      </h1>
-    </div>
-    <div>
-      <div class="form-control pb-4 ">
-        <label class="input-group input-group-md">
-          <span class="w-32 bg-akriblue-600 text-akriblue-200">Name:</span>
-          <input
-            bind:value="{firstname}"
-            type="text"
-            placeholder="First Name"
-            class="input input-bordered input-md bg-akriblue-400 text-white"
-          />
-          <input
-            bind:value="{lastname}"
-            type="text"
-            placeholder="Last Name"
-            class="input input-bordered input-md bg-akriblue-400 text-white"
-          />
-        </label>
+<Animate
+  ><section class="w-full bg-akriblue-500">
+    <div class="py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col">
+      <div class="text-4xl text-white mb-5">{firstname} {lastname}</div>
+      <div class="pb-4">
+        <h1 class="w-full font-medium uppercase text-lg text-akriblue-200">
+          New Contact
+        </h1>
       </div>
-    </div>
-    <div>
       <div>
-        <div class="form-control pb-4">
+        <div class="form-control pb-4 ">
           <label class="input-group input-group-md">
-            <span class="w-32 bg-akriblue-600 text-akriblue-200">Contact:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Name:</span>
             <input
-              bind:value="{contact}"
+              bind:value="{firstname}"
               type="text"
-              placeholder="Mobile"
+              placeholder="First Name"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
+            />
+            <input
+              bind:value="{lastname}"
+              type="text"
+              placeholder="Last Name"
               class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div class="form-control pb-4">
+            <label class="input-group input-group-md">
+              <span class="w-32 bg-akriblue-600 text-akriblue-200"
+                >Contact:</span
+              >
+              <input
+                bind:value="{contact}"
+                type="text"
+                placeholder="Mobile"
+                class="input input-bordered input-md bg-akriblue-400 text-white"
+              />
+            </label>
+          </div>
+
+          <div class="form-control pb-4">
+            <label class="input-group input-group-md">
+              <span class="w-32 bg-akriblue-600 text-akriblue-200"
+                >Landline:</span
+              >
+              <input
+                bind:value="{landline}"
+                type="text"
+                placeholder="Land Line"
+                class="input input-bordered input-md bg-akriblue-400 text-white"
+              />
+            </label>
+          </div>
+        </div>
+        <div>
+          <div class="form-control pb-4">
+            <label class="input-group input-group-md">
+              <span class="w-32 bg-akriblue-600 text-akriblue-200">Email:</span>
+              <input
+                bind:value="{email}"
+                type="text"
+                placeholder="your@email.com"
+                class="input input-bordered input-md bg-akriblue-400 text-white"
+              />
+            </label>
+          </div>
+        </div>
+        <div>
+          <div class="form-control pb-4">
+            <label class="input-group input-group-md">
+              <span class="w-32 bg-akriblue-600 text-akriblue-200"
+                >Company:</span
+              >
+              <input
+                bind:value="{company}"
+                type="text"
+                placeholder="Company"
+                class="input input-bordered input-md bg-akriblue-400 text-white"
+              />
+              <input
+                bind:value="{job}"
+                type="text"
+                placeholder="Your Job"
+                class="input input-bordered input-md bg-akriblue-400 text-white"
+              />
+            </label>
+          </div>
+        </div>
+        <div>
+          <div class="form-control pb-4">
+            <label class="input-group input-group-md">
+              <span class="w-32 bg-akriblue-600 text-akriblue-200">Adress:</span
+              >
+              <input
+                bind:value="{adress}"
+                type="text"
+                class="input input-bordered input-md bg-akriblue-400 text-white"
+              />
+            </label>
+          </div>
         </div>
 
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32 bg-akriblue-600 text-akriblue-200">Landline:</span
-            >
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Website:</span>
             <input
-              bind:value="{landline}"
+              bind:value="{website}"
               type="text"
-              placeholder="Land Line"
+              placeholder="www.your-website.com"
               class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
-      </div>
-      <div>
-        <div class="form-control pb-4">
-          <label class="input-group input-group-md">
-            <span class="w-32 bg-akriblue-600 text-akriblue-200">Email:</span>
-            <input
-              bind:value="{email}"
-              type="text"
-              placeholder="your@email.com"
-              class="input input-bordered input-md bg-akriblue-400 text-white"
-            />
-          </label>
+        <div>
+          <button
+            on:click="{addCntct}"
+            class="rounded-lg btn  bg-akriblue-700 border-akriblue-700 hover:border-akriblue-800 hover:bg-akriblue-800 transition"
+            >Add Contact</button
+          >
         </div>
-      </div>
-      <div>
-        <div class="form-control pb-4">
-          <label class="input-group input-group-md">
-            <span class="w-32 bg-akriblue-600 text-akriblue-200">Company:</span>
-            <input
-              bind:value="{company}"
-              type="text"
-              placeholder="Company"
-              class="input input-bordered input-md bg-akriblue-400 text-white"
-            />
-            <input
-              bind:value="{job}"
-              type="text"
-              placeholder="Your Job"
-              class="input input-bordered input-md bg-akriblue-400 text-white"
-            />
-          </label>
-        </div>
-      </div>
-      <div>
-        <div class="form-control pb-4">
-          <label class="input-group input-group-md">
-            <span class="w-32 bg-akriblue-600 text-akriblue-200">Adress:</span>
-            <input
-              bind:value="{adress}"
-              type="text"
-              class="input input-bordered input-md bg-akriblue-400 text-white"
-            />
-          </label>
-        </div>
-      </div>
-
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32 bg-akriblue-600 text-akriblue-200">Website:</span>
-          <input
-            bind:value="{website}"
-            type="text"
-            placeholder="www.your-website.com"
-            class="input input-bordered input-md bg-akriblue-400 text-white"
-          />
-        </label>
-      </div>
-      <div>
-        <button
-          on:click="{addCntct}"
-          class="rounded-lg btn  bg-akriblue-700 border-akriblue-700 hover:border-akriblue-800 hover:bg-akriblue-800 transition"
-          >Add Contact</button
-        >
       </div>
     </div>
-  </div>
 
-  <!-- <button on:click={signOutUser} class=" btn">Signout</button> -->
-</section>
+    <!-- <button on:click={signOutUser} class=" btn">Signout</button> -->
+  </section>
+</Animate>
