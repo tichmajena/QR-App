@@ -41,6 +41,7 @@
   let job = "";
   let adress = $defaults.address;
   let website = $defaults.website;
+
   // import { request } from "$lib/js/fetch.js";
 
   // const signOutUser = async () => {
@@ -48,6 +49,94 @@
   //   window.location.replace("/login");
   //   console.log("Out");
   // };
+
+  let errors = {
+    firstname: "",
+    lastname: "",
+    contact: "",
+    landline: "",
+    email: "",
+    company: "",
+    job: "",
+    adress: "",
+    website: "",
+  };
+
+  let valid = false;
+
+  function submitHandler() {
+    valid = true;
+
+    if (contact.trim().length < 10) {
+      valid = false;
+      errors.contact = "Contact must be ten(10) numbers";
+    } else {
+      errors.contact = "";
+    }
+    if (firstname.trim().length < 5) {
+      valid = false;
+      errors.firstname = "firstname cannot be empty";
+    } else {
+      errors.firstname = "";
+    }
+    if (lastname.trim().length < 5) {
+      valid = false;
+      errors.lastname = "lastname cannot be empty";
+    } else {
+      errors.lastname = "";
+    }
+    if (landline.trim().length < 5) {
+      valid = false;
+      errors.landline = "landline cannot be empty";
+    } else {
+      errors.landline = "";
+    }
+    if (email.trim().length < 5) {
+      valid = false;
+      errors.email = "email cannot be empty";
+    } else {
+      errors.email = "";
+    }
+    if (company.trim().length < 5) {
+      valid = false;
+      errors.company = "company cannot be empty";
+    } else {
+      errors.company = "";
+    }
+    if (job.trim().length < 5) {
+      valid = false;
+      errors.job = "Job cannot be empty";
+    } else {
+      errors.job = "";
+    }
+    if (adress.trim().length < 5) {
+      valid = false;
+      errors.adress = "Adress cannot be empty";
+    } else {
+      errors.adress = "";
+    }
+    if (website.trim().length < 5) {
+      valid = false;
+      errors.website = "Website cannot be empty";
+    } else {
+      errors.website = "";
+    }
+
+    if (valid) {
+      console.log(
+        "valid",
+        firstname,
+        lastname,
+        contact,
+        landline,
+        email,
+        company,
+        job,
+        adress,
+        website
+      );
+    }
+  }
 
   const colRef = collection(db, "contacts");
   let contacts = [];
@@ -83,7 +172,8 @@
 
       let error = "";
     } else {
-      error = "Task is empty";
+      submitHandler();
+      // error = "Task is empty";
     }
     //task = "";
   };
@@ -159,18 +249,20 @@ END:VCARD`;
           <label class="input-group input-group-md">
             <span class="w-32 bg-akriblue-600 text-akriblue-200">Name:</span>
             <input
-              bind:value="{firstname}"
+              bind:value={firstname}
               type="text"
               placeholder="First Name"
               class="input input-bordered input-md bg-akriblue-400 text-white"
             />
+
             <input
-              bind:value="{lastname}"
+              bind:value={lastname}
               type="text"
               placeholder="Last Name"
               class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
+          <div class="text-red-800">{errors.firstname}</div>
         </div>
       </div>
       <div>
@@ -181,12 +273,13 @@ END:VCARD`;
                 >Contact:</span
               >
               <input
-                bind:value="{contact}"
+                bind:value={contact}
                 type="text"
                 placeholder="Mobile"
                 class="input input-bordered input-md bg-akriblue-400 text-white"
               />
             </label>
+            <div class="text-red-800">{errors.contact}</div>
           </div>
 
           <div class="form-control pb-4">
@@ -195,12 +288,13 @@ END:VCARD`;
                 >Landline:</span
               >
               <input
-                bind:value="{landline}"
+                bind:value={landline}
                 type="text"
                 placeholder="Land Line"
                 class="input input-bordered input-md bg-akriblue-400 text-white"
               />
             </label>
+            <div class="text-red-800">{errors.landline}</div>
           </div>
         </div>
         <div>
@@ -208,12 +302,13 @@ END:VCARD`;
             <label class="input-group input-group-md">
               <span class="w-32 bg-akriblue-600 text-akriblue-200">Email:</span>
               <input
-                bind:value="{email}"
+                bind:value={email}
                 type="text"
                 placeholder="your@email.com"
                 class="input input-bordered input-md bg-akriblue-400 text-white"
               />
             </label>
+            <div class="text-red-800">{errors.email}</div>
           </div>
         </div>
         <div>
@@ -223,18 +318,20 @@ END:VCARD`;
                 >Company:</span
               >
               <input
-                bind:value="{company}"
+                bind:value={company}
                 type="text"
                 placeholder="Company"
                 class="input input-bordered input-md bg-akriblue-400 text-white"
               />
+
               <input
-                bind:value="{job}"
+                bind:value={job}
                 type="text"
                 placeholder="Your Job"
                 class="input input-bordered input-md bg-akriblue-400 text-white"
               />
             </label>
+            <div class="text-red-800">{errors.job}</div>
           </div>
         </div>
         <div>
@@ -243,11 +340,12 @@ END:VCARD`;
               <span class="w-32 bg-akriblue-600 text-akriblue-200">Adress:</span
               >
               <input
-                bind:value="{adress}"
+                bind:value={adress}
                 type="text"
                 class="input input-bordered input-md bg-akriblue-400 text-white"
               />
             </label>
+            <div class="text-red-800">{errors.adress}</div>
           </div>
         </div>
 
@@ -255,16 +353,17 @@ END:VCARD`;
           <label class="input-group input-group-md">
             <span class="w-32 bg-akriblue-600 text-akriblue-200">Website:</span>
             <input
-              bind:value="{website}"
+              bind:value={website}
               type="text"
               placeholder="www.your-website.com"
               class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
+          <div class="text-red-800">{errors.website}</div>
         </div>
         <div>
           <button
-            on:click="{addCntct}"
+            on:click={addCntct}
             class="rounded-lg btn  bg-akriblue-700 border-akriblue-700 hover:border-akriblue-800 hover:bg-akriblue-800 transition"
             >Add Contact</button
           >
