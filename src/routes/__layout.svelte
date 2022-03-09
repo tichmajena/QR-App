@@ -28,19 +28,25 @@
 </nav>
 
 <main class="flex flex-col-reverse md:flex-row p-8 bg-akriblue-500">
-  <div class="w-full md:w-1/4">
+  <div
+    class="w-full md:w-1/4 h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-akriblue-600 scrollbar-track-akriblue-500  scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+  >
     <a href="/" class="btn bg-akriblue-600 border-akriblue-600 mb-2">Add New</a>
     <ul class="flex flex-col-reverse">
       {#each $contactList as contact, index}
         <div class="flex flex-row ">
           <div
-            class="w-full overflow-clip flex flex-col bg-akriblue-400 shadow-2xl rounded-lg mr-8 my-3 md:text-2xl bg-opacity-30 bg-op"
+            class="w-full overflow-clip flex flex-col bg-akriblue-400 shadow-2xl rounded-lg mr-8 my-3 relative md:text-xl {$page.url.pathname.indexOf(
+              contact.id
+            ) > -1
+              ? 'hover:bg-gray-200 hover:bg-opacity-100'
+              : 'hover:bg-akriblue-300 hover:bg-opacity-30'}  bg-opacity-30 transition"
             class:bg-white="{$page.url.pathname.indexOf(contact.id) > -1}"
             class:bg-opacity-100="{$page.url.pathname.indexOf(contact.id) > -1}"
           >
             <div class="flex flex-row px-3 pt-3">
               <div
-                class="flex w-16 h-16 mt-2 justify-center items-center bg-akriblue-500 rounded-full"
+                class="flex w-16 h-16 mt-2 justify-center items-center bg-akriblue-500 rounded-full transition"
                 class:bg-gray-400="{$page.url.pathname.indexOf(contact.id) >
                   -1}"
               >
@@ -72,7 +78,7 @@
                   </div>
 
                   <div class="text-sm">
-                    {contact.contact}
+                    {contact.job}
                   </div>
                   <div
                     class="w-full flex flex-col md:flex-row md:justify-between"
@@ -127,7 +133,7 @@
       {/each}
     </ul>
   </div>
-  <div class="w-full md:w-3/4">
+  <div class="w-full md:w-3/4 h-screen ">
     <!-- 3/4 -->
     <slot />
   </div>

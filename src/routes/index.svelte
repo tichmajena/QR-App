@@ -147,7 +147,7 @@ END:VCARD`;
 
 <Animate
   ><section class="w-full bg-akriblue-500">
-    <div class="py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col">
+    <div class="py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col ">
       <div class="text-4xl text-white mb-5">{firstname} {lastname}</div>
       <div class="pb-4">
         <h1 class="w-full font-medium uppercase text-lg text-akriblue-200">

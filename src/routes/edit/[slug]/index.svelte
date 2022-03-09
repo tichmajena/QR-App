@@ -273,7 +273,7 @@ END:VCARD`;
         </div>
 
         <QR>
-          <div class="flex flex-col mt-12 w-full md:w-1/4">
+          <div class="flex flex-col mt-12 w-full md:w-1/4 ">
             <div class="w-full flex flex-row justify-end pr-4 text-white">
               <button
                 on:click="{deleteContact}"
