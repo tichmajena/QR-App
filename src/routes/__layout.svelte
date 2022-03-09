@@ -4,7 +4,7 @@
   import "../app.css";
 </script>
 
-<header />
+<header></header>
 
 <nav>
   <ul class="flex justify-center space-x-8 ">
@@ -26,59 +26,61 @@
   </ul>
 </nav>
 
-<main class="flex flex-row p-8 bg-akriblue-500">
-  <div class="w-1/2 ">
-    <ul>
+<main class="flex flex-col-reverse md:flex-row p-8 bg-akriblue-500">
+  <div class="w-full md:w-1/4">
+    <a href="/" class="btn bg-akriblue-600 border-akriblue-600 mb-2">Add New</a>
+    <ul class="flex flex-col-reverse">
       {#each $contactList as contact, index}
         <div class="flex flex-row ">
           <div
-            class="xl:w-1/2 w-full flex flex-row bg-akriblue-600 rounded-lg mb-4 md:text-2xl"
+            class="w-full overflow-clip flex flex-col bg-akriblue-400 shadow-2xl rounded-lg mr-8 my-3 md:text-2xl bg-opacity-30"
           >
-            <div class="flex items-center md:pl-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="md:h-8 md:w-8 w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
+            <div class="flex flex-row px-3 pt-3">
+              <div
+                class="flex w-16 h-16 mt-2 justify-center items-center bg-akriblue-500 rounded-full"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </div>
-            <div>
-              <li class=" p-4 ">
-                <div class="md:flex md:flex-row">
-                  {contact.firstname}
-                  {contact.lastname}
-                </div>
-                <div>
-                  {contact.contact}
-                </div>
-                <div
-                  class="w-full flex flex-col md:flex-row md:justify-between"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="md:h-10 md:w-10 w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
                 >
-                  <div class="w-1/2" />
-                  <div class="w-1/2 md:flex md:flex-row space-y-2 ">
-                    <div class="md:p-2">
-                      <a
-                        class="py-1 px-1  rounded-md bg-akriblue-700"
-                        href="/{contact.id}">Open</a
-                      >
-                    </div>
-                    <div>
-                      <a
-                        class="py-1 px-2 rounded-md bg-akriblue-700"
-                        href="/edit/{contact.id}">Edit</a
-                      >
-                    </div>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="w-9/12">
+                <li class=" p-4 ">
+                  <div class="md:flex md:flex-row text-xl">
+                    {contact.firstname}
+                    {contact.lastname}
                   </div>
-                </div>
-              </li>
+                  <div class="text-sm">
+                    {contact.contact}
+                  </div>
+                  <div
+                    class="w-full flex flex-col md:flex-row md:justify-between"
+                  >
+                    <div class="w-1/2"></div>
+                  </div>
+                </li>
+              </div>
+            </div>
+            <div class="flex flex-row justify-end space-x-2 p-3">
+              <a
+                class="btn btn-sm bg-akriblue-500 border-akriblue-500 hover:border-akriblue-600 hover:bg-akriblue-600 transition"
+                href="/{contact.id}">Open</a
+              >
+
+              <a
+                class="btn btn-sm bg-akriblue-500 border-akriblue-500 hover:border-akriblue-600 hover:bg-akriblue-600 transition"
+                href="/edit/{contact.id}">Edit</a
+              >
             </div>
           </div>
 
@@ -114,10 +116,10 @@
       {/each}
     </ul>
   </div>
-  <div class="w-1/2">
+  <div class="w-full md:w-3/4">
     <!-- 3/4 -->
     <slot />
   </div>
 </main>
 
-<footer />
+<footer></footer>

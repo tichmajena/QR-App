@@ -2,10 +2,11 @@
   export const prerender = true;
   import { browser, dev } from "$app/env";
   import { prefetchRoutes } from "$app/navigation";
-  import { doc, onSnapshot } from "firebase/firestore";
+  import { doc, onSnapshot, updateDoc, deleteDoc } from "firebase/firestore";
   import { db } from "$lib/js/firebase";
   import { contactList, current, contact_id } from "$lib/js/store.js";
   import { fade } from "svelte/transition";
+  import QR from "$lib/QR.svelte";
 
   export async function load(page, stuff) {
     let slug = page.params.slug;
@@ -53,7 +54,7 @@
   let copied = false;
   console.log(slug);
 
-  let vcard =
+  $: vcard =
     browser &&
     `BEGIN:VCARD
 N: ${$current.firstname}; ${$current.lastname};;;
@@ -77,6 +78,15 @@ URL;WORK:www.gt.com
 EMAIL;INTERNET,HOME:253413617@qq.com
 END:VCARD`;
 
+  const editContact = async () => {
+    await updateDoc(doc(db, "contacts", $contact_id), $current);
+  };
+
+  const deleteContact = async () => {
+    await deleteDoc(doc(db, "contacts", $contact_id));
+    window.location.replace("/");
+  };
+
   const generateQR = async (text) => {
     console.log(text);
 
@@ -96,7 +106,7 @@ END:VCARD`;
     }
   };
 
-  function getVCard(content, fileName, contentmeta) {
+  function getSVG(content, fileName, contentmeta) {
     console.log(content);
     let vcardData = content;
     const a = document.createElement("a");
@@ -116,35 +126,46 @@ END:VCARD`;
       //urlInput.deselect();
     }, 3000);
   }
+
+  $: rqrc = qrc;
+  $: rqr = qr;
+
+  $: {
+    $current;
+    generateQRC(vcard);
+    generateQR(`https://akribosqr.vercel.app/${$contact_id}`);
+  }
 </script>
 
 {#if browser}
-  <section class="w-full flex bg-akriblue-500">
+  <section class="w-full flex flex-col md:flex-row bg-akriblue-500">
     <div
-      class="text-gray-500 py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col"
+      class="py-2 px-4 w-full md:w-3/4 max-w-screen-xl mx-auto flex flex-col"
     >
       <div class="text-4xl text-white mb-5">
-        {$current.firstname}
+        {$current.firstname}{" "}
         {$current.lastname}
       </div>
       <div class="pb-4">
-        <h1 class="font-bold text-lg">vCard QR Code</h1>
+        <h1 class="font-medium uppercase text-lg text-akriblue-200">
+          Contact Details
+        </h1>
       </div>
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Your Name:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Name:</span>
             <input
-              bind:value={$current.firstname}
+              bind:value="{$current.firstname}"
               type="text"
               placeholder="First Name"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
             <input
-              bind:value={$current.lastname}
+              bind:value="{$current.lastname}"
               type="text"
               placeholder="Last Name"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -152,24 +173,25 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Contact:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Contact:</span>
             <input
-              bind:value={$current.contact}
+              bind:value="{$current.contact}"
               type="text"
               placeholder="Mobile"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
 
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Landline:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Landline:</span
+            >
             <input
-              bind:value={$current.landline}
+              bind:value="{$current.landline}"
               type="text"
               placeholder="Phone"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -177,12 +199,12 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Email:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Email:</span>
             <input
-              bind:value={$current.email}
+              bind:value="{$current.email}"
               type="text"
               placeholder="your@email.com"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -190,18 +212,18 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Company:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Company:</span>
             <input
-              bind:value={$current.company}
+              bind:value="{$current.company}"
               type="text"
               placeholder="Company"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
             <input
-              bind:value={$current.job}
+              bind:value="{$current.job}"
               type="text"
               placeholder="Your Job"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -209,11 +231,11 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Adress:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Adress:</span>
             <input
-              bind:value={$current.adress}
+              bind:value="{$current.adress}"
               type="text"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -222,103 +244,137 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Website:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Website:</span>
             <input
-              bind:value={$current.website}
+              bind:value="{$current.website}"
               type="text"
               placeholder="www.your-website.com"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
       </div>
       <div>
-        <button on:click={() => {}} class="rounded-lg btn">Save Contacts</button
+        <button
+          on:click="{editContact}"
+          class="rounded-lg btn bg-akriblue-700 border-akriblue-700 hover:border-akriblue-800 hover:bg-akriblue-800 transition"
+          >Save Contacts</button
         >
       </div>
     </div>
-    <div class="flex flex-col">
-      <div class="w-60 mb-6 rounded-lg bg-gray-800 p-4">
-        <div class="text-white font-medium uppercase mb-3">
-          Contact Details QR
-        </div>
-        {@html qrc}
-
-        <div class="flex space-x-2 mt-4">
-          <button
-            on:click="{() => generateQRC(vcard)}"
-            class="btn btn-success btn-sm">Generate</button
-          >
-          <button
-            on:click="{() =>
-              getVCard(
-                qrc,
-                `${$current.firstname}_${$current.lastname}_d.svg`,
-                'text/svg'
-              )}"
-            disabled="{!qrc}"
-            class="btn btn-success btn-sm">Download</button
-          >
-        </div>
-      </div>
-      <div class="w-60 mb-6 rounded-lg bg-gray-800 p-4">
-        <div class="text-white font-medium uppercase mb-3">Contact Card QR</div>
-
-        <div class="flex items-center mb-4 space-x-1">
-          url: <input
-            bind:this="{urlInput}"
-            class="input input-xs ml-2 w-full "
-            type="text"
-            value="https://akribosqr.vercel.app/{$contact_id}"
-          />
-          <button
-            on:click="{copyURL}"
-            class:bg-gray-400="{!copied}"
-            class:bg-green-500="{copied}"
-            class="p-1 rounded-lg transition duration-700"
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
+    {#key $current}
+      <QR>
+        <div class="flex flex-col mt-12 w-full md:w-1/4">
+          <div class="w-full flex flex-row justify-end pr-4 text-white">
+            <button
+              on:click="{deleteContact}"
+              class="btn btn-sm mb-3 items bg-red-700 border-red-700"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                ></path>
+              </svg>Delete Contact</button
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-              ></path>
-            </svg></button
-          >
-        </div>
-        {#if copied}
-          <div
-            transition:fade
-            class="text-xs text-green-500 italic text-center mb-3"
-          >
-            copied to clipboard!
           </div>
-        {/if}
-        {@html qr}
-        <div class="flex space-x-2 mt-4">
-          <button
-            on:click="{() =>
-              generateQR(`https://akribosqr.vercel.app/${$contact_id}`)}"
-            class="btn btn-success btn-sm">Generate</button
-          >
-          <button
-            on:click="{() =>
-              getVCard(
-                qr,
-                `${$current.firstname}_${$current.lastname}_c.svg`,
-                'text/svg'
-              )}"
-            disabled="{!qr}"
-            class="btn btn-success btn-sm">Download</button
-          >
+          <div class="w-60 mb-6 rounded-lg bg-akriblue-600 p-4">
+            <div class="text-white font-medium uppercase mb-3">
+              Contact Details QR
+            </div>
+            {@html rqrc}
+
+            <div class="flex space-x-2 mt-4">
+              <button
+                on:click="{() => generateQRC(vcard)}"
+                class="btn bg-akriblue-300 border-akriblue-300 btn-sm"
+                >Generate</button
+              >
+              <button
+                on:click="{() =>
+                  getSVG(
+                    qrc,
+                    `${$current.firstname}_${$current.lastname}_d.svg`,
+                    'text/svg'
+                  )}"
+                disabled="{!qrc}"
+                class="btn bg-akriblue-300 border-akriblue-300 btn-sm"
+                >Download</button
+              >
+            </div>
+          </div>
+          <div class="w-60 mb-6 rounded-lg bg-akriblue-600 p-4">
+            <div class="text-white font-medium uppercase mb-3">
+              Contact Card QR
+            </div>
+
+            <div class="flex items-center mb-4 space-x-2">
+              url: <input
+                bind:this="{urlInput}"
+                class="input input-xs ml-2 w-full bg-akriblue-400 selection:bg-akriblue-400"
+                type="text"
+                value="https://akribosqr.vercel.app/{$contact_id}"
+              />
+              <button
+                on:click="{copyURL}"
+                class:bg-akriblue-400="{!copied}"
+                class:bg-white="{copied}"
+                class:text-akriblue-400="{copied}"
+                class="p-1 rounded-lg transition duration-700"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  ></path>
+                </svg></button
+              >
+            </div>
+            {#if copied}
+              <div
+                transition:fade
+                class="text-xs text-akriblue-200 italic text-center mb-3"
+              >
+                copied to clipboard!
+              </div>
+            {/if}
+            {@html rqr}
+            <div class="flex space-x-2 mt-4">
+              <button
+                on:click="{() =>
+                  generateQR(`https://akribosqr.vercel.app/${$contact_id}`)}"
+                class="btn bg-akriblue-300 border-akriblue-300 btn-sm"
+                >Generate</button
+              >
+              <button
+                on:click="{() =>
+                  getSVG(
+                    qr,
+                    `${$current.firstname}_${$current.lastname}_c.svg`,
+                    'text/svg'
+                  )}"
+                disabled="{!qr}"
+                class="btn bg-akriblue-300 border-akriblue-300 btn-sm"
+                >Download</button
+              >
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </QR>
+    {/key}
   </section>
 {/if}

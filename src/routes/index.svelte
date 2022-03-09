@@ -63,15 +63,7 @@
     $contactList = _contacts;
     console.table(contacts);
   });
-  async function tora() {
-    const querySnapshot = await getDocs(collection(db, "contacts"));
-    await querySnapshot.forEach((doc) => {
-      //  console.log(`${doc.id} => ${doc.data()}`);
-      //console.log(doc.data());
-    });
-  }
 
-  tora();
   // const unsub = onSnapshot(doc(db, "contacts"), (doc) => {
   //   console.log("Current data: ", doc.data());
   // });
@@ -95,16 +87,6 @@
       error = "Task is empty";
     }
     //task = "";
-  };
-
-  const deleteContact = async (id) => {
-    await deleteDoc(doc(db, "contacts", id));
-  };
-
-  const markContactAsComlete = async (item) => {
-    await updateDoc(doc(db, "contacts", item.id), {
-      isComplete: !item.isComplete,
-    });
   };
 
   let qr = "";
@@ -166,65 +148,55 @@ END:VCARD`;
 </script>
 
 <section class="w-full bg-akriblue-500">
-  <div
-    class="text-gray-500 py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col"
-  >
+  <div class="py-2 px-4 w-full max-w-screen-xl mx-auto flex flex-col">
     <div class="text-4xl text-white mb-5">{firstname} {lastname}</div>
     <div class="pb-4">
-      <h1 class="w-full font-bold text-lg">Contact Details</h1>
+      <h1 class="w-full font-medium uppercase text-lg text-akriblue-200">
+        New Contact
+      </h1>
     </div>
     <div>
       <div class="form-control pb-4 ">
         <label class="input-group input-group-md">
-          <span class="w-32">Your Name:</span>
+          <span class="w-32 bg-akriblue-600 text-akriblue-200">Name:</span>
           <input
-            bind:value={firstname}
+            bind:value="{firstname}"
             type="text"
             placeholder="First Name"
-            class="input input-bordered input-md"
+            class="input input-bordered input-md bg-akriblue-400 text-white"
           />
           <input
-            bind:value={lastname}
+            bind:value="{lastname}"
             type="text"
             placeholder="Last Name"
-            class="input input-bordered input-md"
+            class="input input-bordered input-md bg-akriblue-400 text-white"
           />
         </label>
       </div>
     </div>
     <div>
-      <div class="form-control pb-4">
-        <label class="input-group input-group-md">
-          <span class="w-32">Contact:</span>
-          <input
-            bind:value={contact}
-            type="text"
-            placeholder="Mobile"
-            class="input input-bordered input-md"
-          />
-        </label>
-      </div>
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Contact:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Contact:</span>
             <input
               bind:value="{contact}"
               type="text"
               placeholder="Mobile"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
 
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Landline:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Landline:</span
+            >
             <input
               bind:value="{landline}"
               type="text"
               placeholder="Land Line"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -232,12 +204,12 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Email:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Email:</span>
             <input
               bind:value="{email}"
               type="text"
               placeholder="your@email.com"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -245,18 +217,18 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Company:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Company:</span>
             <input
               bind:value="{company}"
               type="text"
               placeholder="Company"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
             <input
               bind:value="{job}"
               type="text"
               placeholder="Your Job"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -264,11 +236,11 @@ END:VCARD`;
       <div>
         <div class="form-control pb-4">
           <label class="input-group input-group-md">
-            <span class="w-32">Adress:</span>
+            <span class="w-32 bg-akriblue-600 text-akriblue-200">Adress:</span>
             <input
               bind:value="{adress}"
               type="text"
-              class="input input-bordered input-md"
+              class="input input-bordered input-md bg-akriblue-400 text-white"
             />
           </label>
         </div>
@@ -276,36 +248,24 @@ END:VCARD`;
 
       <div class="form-control pb-4">
         <label class="input-group input-group-md">
-          <span class="w-32">Website:</span>
+          <span class="w-32 bg-akriblue-600 text-akriblue-200">Website:</span>
           <input
             bind:value="{website}"
             type="text"
             placeholder="www.your-website.com"
-            class="input input-bordered input-md"
+            class="input input-bordered input-md bg-akriblue-400 text-white"
           />
         </label>
       </div>
       <div>
-        <button on:click="{addCntct}" class="rounded-lg btn">Add Contact</button
+        <button
+          on:click="{addCntct}"
+          class="rounded-lg btn  bg-akriblue-700 border-akriblue-700 hover:border-akriblue-800 hover:bg-akriblue-800 transition"
+          >Add Contact</button
         >
       </div>
     </div>
-
-    <div class="form-control pb-4">
-      <label class="input-group input-group-md">
-        <span class="w-32">Website:</span>
-        <input
-          bind:value={website}
-          type="text"
-          placeholder="www.your-website.com"
-          class="input input-bordered input-md"
-        />
-      </label>
-    </div>
   </div>
-  <div>
-    <button on:click={addCntct} class="rounded-lg btn">Add Contact</button>
 
-    <!-- <button on:click={signOutUser} class=" btn">Signout</button> -->
-  </div>
+  <!-- <button on:click={signOutUser} class=" btn">Signout</button> -->
 </section>
